@@ -39,7 +39,16 @@ public class Routing {
 			LOGGER.info("Router number not exits");
 			return;
 		}
-			
+		
+		String[] routerTable = (orgRoutingTable.get(routerNum-1)).split(",");
+		
+		for (int i = 0; i < routerTable.length; i++) {
+			int distance = Integer.parseInt(routerTable[i]);
+			if (distance != 0 && distance != -1) {
+				System.out.println("R"+(i+1)+":"+distance);
+			}
+		}
+		
 	}
 
 }
