@@ -36,7 +36,6 @@ public class FileReading {
 			}
 		}
 		
-		LOGGER.info("Routing table reads in finished");
 		return result;
 	}
 	
