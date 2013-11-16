@@ -18,13 +18,10 @@ public class Routing {
 		}
 		
 		LOGGER.info("Start reads in routing tables...");
+		System.out.println("Original routing table is as follows:");
 		int tableSize = orgRoutingTable.size();
-		for (int i = 0; i < tableSize; i++) {
-			System.out.print("  R"+(i+1)+" ");
-		}
-		System.out.println();
 		for(int i = 0; i < tableSize; i++) {
-			System.out.println("R" + (i+1)+":" + orgRoutingTable.get(i));
+			System.out.println(orgRoutingTable.get(i));
 		}
 		LOGGER.info("Routing table reads in finished");
 	}
@@ -40,7 +37,7 @@ public class Routing {
 			return;
 		}
 		
-		String[] routerTable = (orgRoutingTable.get(routerNum-1)).split(" ");
+		String[] routerTable = (orgRoutingTable.get(routerNum-1)).split("    ");
 		
 		for (int i = 0; i < routerTable.length; i++) {
 			int distance = Integer.parseInt(routerTable[i]);
