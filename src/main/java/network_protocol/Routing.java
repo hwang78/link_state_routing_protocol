@@ -40,7 +40,7 @@ public class Routing {
 			return;
 		}
 		
-		String[] routerTable = (orgRoutingTable.get(routerNum-1)).split(",");
+		String[] routerTable = (orgRoutingTable.get(routerNum-1)).split(" ");
 		
 		for (int i = 0; i < routerTable.length; i++) {
 			int distance = Integer.parseInt(routerTable[i]);
