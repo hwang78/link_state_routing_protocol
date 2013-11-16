@@ -52,12 +52,12 @@ public class Routing {
 		String[] routingDistance = (orgRoutingTable.get(startRouter-1)).split("     ");
 		int distance = Integer.parseInt(routingDistance[endRouter-1]);
 		
-		if(distance != -1)
-			System.out.println("The shortest path from " + startRouter+" to " 
-			+ endRouter +" is " + startRouter + "-" + endRouter+", total cost is " + distance);
-		else {
-			
-		}
+//		if(distance != -1)
+//			System.out.println("The shortest path from " + startRouter+" to " 
+//			+ endRouter +" is " + startRouter + "-" + endRouter+", total cost is " + distance);
+//		else {
+//			
+//		}
 	}
 
 }
