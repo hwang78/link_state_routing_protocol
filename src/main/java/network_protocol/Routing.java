@@ -48,6 +48,9 @@ public class Routing {
 				System.out.println("R"+(i+1)+":"+distance);
 			}
 		}
+	}
+	
+	public void findMinPath(int startRouter, int endRouter) {
 		
 	}
 
