@@ -61,6 +61,7 @@ public class RoutingMenu {
 					break;
 				case -1:
 					flag = false;
+					System.out.println("Thank you!"); 
 					break;
 				default :
 					break;
