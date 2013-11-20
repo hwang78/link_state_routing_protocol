@@ -82,6 +82,8 @@ public class RoutingMenu {
 		int i = 1;
 		for(ArrayList<Double> lsp : orgRoutingTable) {
 			Router router = new Router();
+			router.setId(i);
+			router.setName("R"+i);
 			router.addLSP(lsp);
 			SystemContext.ROUTERS.put(i, router);
 			i++;
@@ -93,14 +95,18 @@ public class RoutingMenu {
 	 * @param routerNum
 	 */
 	public void getRouterRoutingTable(int routerNum) {
-		if(orgRoutingTable == null) {
-			LOGGER.info("No routing tables provided");
-			return;
-		}
-		
-		if(routerNum < 1 || routerNum > orgRoutingTable.size()) {
-			LOGGER.info("Router number not exits");
-			return;
+//		if(orgRoutingTable == null) {
+//			LOGGER.info("No routing tables provided");
+//			return;
+//		}
+//		
+//		if(routerNum < 1 || routerNum > orgRoutingTable.size()) {
+//			LOGGER.info("Router number not exits");
+//			return;
+//		}
+//		
+		for(Router router: SystemContext.ROUTERS.values()) {
+			router.floodLSP();
 		}
 		
 		
