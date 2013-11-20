@@ -21,11 +21,13 @@ public class RoutingMenu {
 	ArrayList<ArrayList<Double>> orgRoutingTable;
 	
 	
-	
+	/**
+	 * user menu 
+	 */
 	public void startMenu() {
 		boolean flag = true;
 		Scanner input = new Scanner(System.in);
-		final String FILE_PATH = "network.txt";
+		String filePath = input.nextLine();
 		
 		while(flag) {
 			System.out.println("1 - Load File");
@@ -37,7 +39,7 @@ public class RoutingMenu {
 			
 			switch (optionNum) {
 				case 1 :
-					readsInputRoutingTable(FILE_PATH);
+					readsInputRoutingTable(filePath);
 					initRouters();
 					floodNetwork();
 					break;		
@@ -79,6 +81,9 @@ public class RoutingMenu {
 		LOGGER.info("Routing table reads in finished");
 	}
 	
+	/**
+	 * initialize routers
+	 */
 	public void initRouters() {
 		int i = 1;
 		for(ArrayList<Double> lsp : orgRoutingTable) {
@@ -91,6 +96,9 @@ public class RoutingMenu {
 		}
 	}
 	
+	/**
+	 * flood the network
+	 */
 	public void floodNetwork() {
 		for(Router router: SystemContext.ROUTERS.values()) {
 			router.floodLSP(router);
@@ -102,16 +110,7 @@ public class RoutingMenu {
 	 * @param routerNum
 	 */
 	public void getRouterRoutingTable(int routerNum) {
-//		if(orgRoutingTable == null) {
-//			LOGGER.info("No routing tables provided");
-//			return;
-//		}
-//		
-//		if(routerNum < 1 || routerNum > orgRoutingTable.size()) {
-//			LOGGER.info("Router number not exits");
-//			return;
-//		}
-//		
+		
 		for(Router router: SystemContext.ROUTERS.values()) {
 			System.out.println("Router["+router.getName()+"]"+router.routerList);
 		}
@@ -123,7 +122,7 @@ public class RoutingMenu {
 	}
 	
 	/**
-	 * get the minimum path 
+	 * get the minimum path using Dijkstra algorithm
 	 * @param startRouter
 	 * @param endRouter
 	 */

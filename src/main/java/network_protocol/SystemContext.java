@@ -4,5 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SystemContext {
+	/**
+	 * To load original routing table
+	 */
 	static Map<Integer, Router> ROUTERS = new HashMap<Integer, Router>(); 
 }

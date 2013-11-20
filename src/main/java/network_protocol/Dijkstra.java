@@ -84,7 +84,7 @@ class Graph {
 			nTree++;
 			adjust_sPath();
 		}
-		displaypaths();
+	//	displaypaths();
 	}
 
 	private void displaypaths() {

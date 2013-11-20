@@ -22,19 +22,27 @@ public class Router {
 	
 	public Map<Integer,Integer> routingTable = new HashMap<Integer, Integer>();
 	
-	private Map<Integer, String> shortestPath = new HashMap<Integer, String>(); 
-	
-	
-	
+	/**
+	 * add LSP to router
+	 * @param lsp
+	 */
 	public void addLSP(ArrayList<Double> lsp) {
 		this.lsp = lsp;
 		routerList.add(this);
 	}
 	
+	/**
+	 * add a router to the router list
+	 * @param router
+	 */
 	public void addRouter(Router router) {
 		routerList.add(router);
 	}
 	
+	/**
+	 * flood LSP to direct neighbors
+	 * @param router
+	 */
 	public void floodLSP(Router router){
 		int i =1;
 		for(Double dis : lsp) {
@@ -63,6 +71,9 @@ public class Router {
 		
 	}
 	
+	/**
+	 * construct graph to for Dijkstra algorithm
+	 */
 	public void constructGraph() {
 		theGraph = new Graph(routerList.size());
 		for(Router router: routerList) {
@@ -96,13 +107,15 @@ public class Router {
 			 theGraph.adjMatrix[this.getId()-1][i] = theGraph.adjMatrix[0][i];
 			 theGraph.adjMatrix[0][i] = temp;
 		}
-		
-		
+			
+	}
+	
+	/**
+	 * calculate the routing table for the router
+	 */
+	public void calculateRouteTable() {
 		
 		theGraph.dijkstra();
-		
-		System.out.println(Arrays.toString(theGraph.sPath));
-		
 		for(int i = 1; i < routerList.size();i++ ) {
 			int vex = theGraph.sPath[i].parentVertex;
 			int preVex = i;
@@ -116,16 +129,13 @@ public class Router {
 		System.out.println("TABLE:");
 		System.out.println(routingTable);
 		
-		
-		
-		
 	}
 	
-	public void calculateRouteTable() {
-		
-		
-	}
-	
+	/**
+	 * calculate path to the destination(direct or indirect)
+	 * @param dest
+	 * @return
+	 */
 	public double calculatePath(int dest) {
 		int nextHopId = routingTable.get(dest);	
 		Router nextHop = null;

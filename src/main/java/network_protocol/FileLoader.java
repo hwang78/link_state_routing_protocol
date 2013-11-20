@@ -11,6 +11,11 @@ public class FileLoader {
 
 	private final Logger LOGGER = Logger.getLogger(FileLoader.class);
 	
+	/**
+	 * Read in original routing table
+	 * @param filePath
+	 * @return
+	 */
 	public ArrayList<ArrayList<Double>> readFile(String filePath) {
 		if (filePath == null) {
 			LOGGER.info("Invalid file path.");
