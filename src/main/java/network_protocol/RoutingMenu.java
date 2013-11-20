@@ -39,6 +39,7 @@ public class RoutingMenu {
 				case 1 :
 					readsInputRoutingTable(FILE_PATH);
 					initRouters();
+					floodNetwork();
 					break;		
 				case 2 :
 					System.out.println("Please select a router:");
@@ -90,6 +91,12 @@ public class RoutingMenu {
 		}
 	}
 	
+	public void floodNetwork() {
+		for(Router router: SystemContext.ROUTERS.values()) {
+			router.floodLSP(router);
+		}
+	}
+	
 	/**
 	 * Generate routing table for each router 
 	 * @param routerNum
@@ -106,9 +113,12 @@ public class RoutingMenu {
 //		}
 //		
 		for(Router router: SystemContext.ROUTERS.values()) {
-			router.floodLSP();
+			System.out.println("Router["+router.getName()+"]"+router.routerList);
 		}
 		
+		for(Router router: SystemContext.ROUTERS.values()) {
+			router.constructGraph();
+		}
 		
 	}
 	
@@ -118,7 +128,9 @@ public class RoutingMenu {
 	 * @param endRouter
 	 */
 	public void findMinPath(int startRouter, int endRouter) {
-
+		System.out.print("Path: "+SystemContext.ROUTERS.get(startRouter).getName());
+		double total = SystemContext.ROUTERS.get(startRouter).calculatePath(endRouter);
+		System.out.println("   total cost = "+total);
 	}
 
 }
