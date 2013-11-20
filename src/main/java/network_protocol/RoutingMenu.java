@@ -1,6 +1,8 @@
 package network_protocol;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import org.apache.log4j.Logger;
@@ -15,8 +17,9 @@ public class RoutingMenu {
 	
 	private final Logger LOGGER = Logger.getLogger(RoutingMenu.class);
 	
-	ArrayList<String> orgRoutingTable;
-	FileReading fr = new FileReading();
+	FileLoader fr = new FileLoader();
+	ArrayList<ArrayList<Double>> orgRoutingTable;
+	
 	
 	
 	public void startMenu() {
@@ -35,6 +38,7 @@ public class RoutingMenu {
 			switch (optionNum) {
 				case 1 :
 					readsInputRoutingTable(FILE_PATH);
+					initRouters();
 					break;		
 				case 2 :
 					System.out.println("Please select a router:");
@@ -59,7 +63,7 @@ public class RoutingMenu {
 	}
 	
 	/**
-	 * read input file 
+	 * Load original routing table
 	 * @param filePath
 	 */
 	public void readsInputRoutingTable(String filePath) {
@@ -70,15 +74,22 @@ public class RoutingMenu {
 		
 		LOGGER.info("Start reads in routing tables...");
 		System.out.println("Original routing table is as follows:");
-		int tableSize = orgRoutingTable.size();
-		for(int i = 0; i < tableSize; i++) {
-			System.out.println(orgRoutingTable.get(i));
-		}
+		System.out.println(orgRoutingTable);
 		LOGGER.info("Routing table reads in finished");
 	}
 	
+	public void initRouters() {
+		int i = 1;
+		for(ArrayList<Double> lsp : orgRoutingTable) {
+			Router router = new Router();
+			router.addLSP(lsp);
+			SystemContext.ROUTERS.put(i, router);
+			i++;
+		}
+	}
+	
 	/**
-	 * generate the routing table for a router 
+	 * Generate routing table for each router 
 	 * @param routerNum
 	 */
 	public void getRouterRoutingTable(int routerNum) {
@@ -92,14 +103,7 @@ public class RoutingMenu {
 			return;
 		}
 		
-		String[] routerTable = (orgRoutingTable.get(routerNum-1)).split("     ");
 		
-		for (int i = 0; i < routerTable.length; i++) {
-			int distance = Integer.parseInt(routerTable[i]);
-			if (distance != 0 && distance != -1) {
-				System.out.println("R"+(i+1)+":"+distance);
-			}
-		}
 	}
 	
 	/**
@@ -108,16 +112,7 @@ public class RoutingMenu {
 	 * @param endRouter
 	 */
 	public void findMinPath(int startRouter, int endRouter) {
-		
-		String[] routingDistance = (orgRoutingTable.get(startRouter-1)).split("     ");
-		int distance = Integer.parseInt(routingDistance[endRouter-1]);
-		
-//		if(distance != -1)
-//			System.out.println("The shortest path from " + startRouter+" to " 
-//			+ endRouter +" is " + startRouter + "-" + endRouter+", total cost is " + distance);
-//		else {
-//			
-//		}
+
 	}
 
 }

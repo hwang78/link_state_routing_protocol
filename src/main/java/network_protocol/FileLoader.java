@@ -7,23 +7,29 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
-public class FileReading {
+public class FileLoader {
 
-	private final Logger LOGGER = Logger.getLogger(FileReading.class);
+	private final Logger LOGGER = Logger.getLogger(FileLoader.class);
 	
-	public ArrayList<String> readFile(String filePath) {
+	public ArrayList<ArrayList<Double>> readFile(String filePath) {
 		if (filePath == null) {
 			LOGGER.info("Invalid file path.");
 			return null;
 		}
 		
 		BufferedReader br = null;
-		ArrayList<String> result = new ArrayList<String>();
+		ArrayList<ArrayList<Double>> result = new ArrayList<ArrayList<Double>>();
 		try {
 			String line;
+			ArrayList<Double> distances;
 			br = new BufferedReader(new FileReader(filePath));
 			while ((line=br.readLine()) != null) {
-				result.add(line);				
+				distances = new ArrayList<Double>();
+				String[] dis = line.split("[\\s]+");
+				for(String s:dis) {
+					distances.add(Double.parseDouble(s));
+				}
+				result.add(distances);				
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
