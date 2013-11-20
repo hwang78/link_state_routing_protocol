@@ -27,8 +27,7 @@ class DistPare {
 	public String toString() {
 		return "DistPare [parentVertex=" + parentVertex + ", distance=" + distance + "]";
 	}
-	
-	
+
 }
 
 class Graph {
@@ -84,34 +83,33 @@ class Graph {
 			nTree++;
 			adjust_sPath();
 		}
-	//	displaypaths();
+		// displaypaths();
 	}
 
 	private void displaypaths() {
-       
-        ArrayList<String> list = new ArrayList<String>();
-        
-        for(int i = 1; i < nVerts; i++){
-        	System.out.print(vertexList[0].label + " --> " + vertexList[i].label + " : Costs is " + sPath[i].distance );
-        	int vex = sPath[i].parentVertex;
-        	while(  vertexList[vex] != vertexList[0]){
-        		list.add(vertexList[vex].label);
-        		vex = sPath[vex].parentVertex;
-        	}
-        	Collections.reverse(list);
-        	System.out.print(" , Path is " + vertexList[0].label );
-        	for(int j = 0; j<list.size(); j++){
-        			System.out.print( " --> " +list.get(j));
-        
-        	}
-        	System.out.print(" --> " + vertexList[i].label);
-        		
-        	System.out.println("");
-        	
-        	vex = 0;
-        	list.clear();
-        }
-    }
+
+		ArrayList<String> list = new ArrayList<String>();
+
+		for (int i = 1; i < nVerts; i++) {
+			System.out.print(vertexList[0].label + " --> " + vertexList[i].label + " : Costs is " + sPath[i].distance);
+			int vex = sPath[i].parentVertex;
+			while (vertexList[vex] != vertexList[0]) {
+				list.add(vertexList[vex].label);
+				vex = sPath[vex].parentVertex;
+			}
+			Collections.reverse(list);
+			System.out.print(" , Path is " + vertexList[0].label);
+			for (int j = 0; j < list.size(); j++) {
+				System.out.print(" --> " + list.get(j));
+			}
+			System.out.print(" --> " + vertexList[i].label);
+
+			System.out.println("");
+
+			vex = 0;
+			list.clear();
+		}
+	}
 	private void adjust_sPath() {
 		int column = 1;
 		while (column < nVerts) {
@@ -146,39 +144,39 @@ class Graph {
 
 public class Dijkstra {
 	public static void main(String[] args) throws FileNotFoundException {
-		
+
 		Graph theGraph = new Graph(20);
 
 		// read first line of matrix which contains all the vertexs;
-		
+
 		Scanner sc = new Scanner(new File("DijkstraGraphTopology.txt"));
-		if(sc.hasNextLine()){
+		if (sc.hasNextLine()) {
 			String vertexs = sc.nextLine();
 			String[] vertexsArray = vertexs.split("\\s{1,}");
-			for(int i = 0 ; i < vertexsArray.length; i++){
-				if(vertexsArray[i].equals(""))
+			for (int i = 0; i < vertexsArray.length; i++) {
+				if (vertexsArray[i].equals(""))
 					continue;
 				theGraph.addVertex(vertexsArray[i]);
 			}
 		}
-		
-		// read the remaining lines of matrix which contains path and weight 
-		
+
+		// read the remaining lines of matrix which contains path and weight
+
 		int row = 0;
-		while(sc.hasNextLine()){
+		while (sc.hasNextLine()) {
 			String weights = sc.nextLine();
 			String[] weightsArray = weights.split("\\s{1,}");
-			for(int i = 1 ; i < weightsArray.length; i++){
-				if(weightsArray[i].equals("") || weightsArray[i].equals("0") )
+			for (int i = 1; i < weightsArray.length; i++) {
+				if (weightsArray[i].equals("") || weightsArray[i].equals("0"))
 					continue;
-				theGraph.addEdge(row, i-1, Integer.parseInt(weightsArray[i]));
+				theGraph.addEdge(row, i - 1, Integer.parseInt(weightsArray[i]));
 			}
-			
+
 			row++;
 		}
-		
+
 		theGraph.dijkstra();
-		
+
 	}
 
 }

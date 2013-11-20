@@ -30,20 +30,23 @@ public class RoutingMenu {
 		
 		
 		while(flag) {
-			System.out.println("1 - Load File");
-			System.out.println("2 - Build Routing Table for Each Router");
-			System.out.println("3 - Out Optimal Path and Minmum Cost");
-			System.out.println("-1 - exit");
-					
+			System.out.println("******************* MENU ******************");
+			System.out.println("    1 - Load File.");
+			System.out.println("    2 - Build Routing Table for Each Router.");
+			System.out.println("    3 - Out Optimal Path and Minmum Cost.");
+			System.out.println("   -1 - exit.");
+			System.out.println("*********************************************");
+			
 			int optionNum = input.nextInt();
 			
 			switch (optionNum) {
 				case 1 :
 					System.out.println("Please load original routing table data file:");
-					String filePath = input.nextLine();
+					String filePath = input.next();
 					readsInputRoutingTable(filePath);
 					initRouters();
 					floodNetwork();
+					generateRoutingTableForAllLink();
 					break;		
 				case 2 :
 					System.out.println("Please select a router:");
@@ -79,7 +82,14 @@ public class RoutingMenu {
 		
 		LOGGER.info("Start reads in routing tables...");
 		System.out.println("Original routing table is as follows:");
-		System.out.println(orgRoutingTable);
+		
+		for(ArrayList<Double> tableList: orgRoutingTable) {
+			for (int i = 0; i < tableList.size(); i++) {
+				System.out.print(tableList.get(i).intValue() + "         ");
+			}
+			System.out.println();
+		}
+		
 		LOGGER.info("Routing table reads in finished");
 	}
 	
@@ -107,19 +117,21 @@ public class RoutingMenu {
 		}
 	}
 	
+	public void generateRoutingTableForAllLink() {
+		for(Router router: SystemContext.ROUTERS.values()) {
+			router.constructGraph();
+			router.calculateRouteTable();
+		}
+	}
+	
 	/**
 	 * Generate routing table for each router 
 	 * @param routerNum
 	 */
 	public void getRouterRoutingTable(int routerNum) {
-		
-		for(Router router: SystemContext.ROUTERS.values()) {
-			System.out.println("Router["+router.getName()+"]"+router.routerList);
-		}
-		
-		for(Router router: SystemContext.ROUTERS.values()) {
-			router.constructGraph();
-		}
+	
+		Router router = SystemContext.ROUTERS.get(routerNum);
+		router.printRouteTable();
 		
 	}
 	
@@ -129,9 +141,14 @@ public class RoutingMenu {
 	 * @param endRouter
 	 */
 	public void findMinPath(int startRouter, int endRouter) {
-		System.out.print("Path: "+SystemContext.ROUTERS.get(startRouter).getName());
-		double total = SystemContext.ROUTERS.get(startRouter).calculatePath(endRouter);
-		System.out.println("   total cost = "+total);
+		try {
+			System.out.print("Path: "+SystemContext.ROUTERS.get(startRouter).getName());
+			double total = SystemContext.ROUTERS.get(startRouter).calculatePath(endRouter);
+			System.out.println("   total cost = "+total);
+		} catch (Exception e) {
+			System.err.println("invalid input, please try again.");
+		}
+		
 	}
 
 }
