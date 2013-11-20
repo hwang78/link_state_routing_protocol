@@ -11,6 +11,10 @@ public class Routing {
 	
 	private final Logger LOGGER = Logger.getLogger(Routing.class);
 	
+	/**
+	 * read input file 
+	 * @param filePath
+	 */
 	public void readsInputRoutingTable(String filePath) {
 		orgRoutingTable = fr.readFile(filePath);
 		if(orgRoutingTable == null) {
@@ -26,6 +30,10 @@ public class Routing {
 		LOGGER.info("Routing table reads in finished");
 	}
 	
+	/**
+	 * generate the routing table for a router 
+	 * @param routerNum
+	 */
 	public void getRouterRoutingTable(int routerNum) {
 		if(orgRoutingTable == null) {
 			LOGGER.info("No routing tables provided");
@@ -47,6 +55,11 @@ public class Routing {
 		}
 	}
 	
+	/**
+	 * get the minimum path 
+	 * @param startRouter
+	 * @param endRouter
+	 */
 	public void findMinPath(int startRouter, int endRouter) {
 		
 		String[] routingDistance = (orgRoutingTable.get(startRouter-1)).split("     ");
