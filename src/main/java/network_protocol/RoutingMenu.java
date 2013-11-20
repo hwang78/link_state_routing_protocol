@@ -27,7 +27,7 @@ public class RoutingMenu {
 	public void startMenu() {
 		boolean flag = true;
 		Scanner input = new Scanner(System.in);
-		String filePath = input.nextLine();
+		
 		
 		while(flag) {
 			System.out.println("1 - Load File");
@@ -39,6 +39,8 @@ public class RoutingMenu {
 			
 			switch (optionNum) {
 				case 1 :
+					System.out.println("Please load original routing table data file:");
+					String filePath = input.nextLine();
 					readsInputRoutingTable(filePath);
 					initRouters();
 					floodNetwork();
