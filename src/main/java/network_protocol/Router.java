@@ -7,8 +7,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.management.RuntimeErrorException;
-
 import org.apache.log4j.Logger;
 
 public class Router {
@@ -78,7 +76,7 @@ public class Router {
 		public int compare(Vertex o1, Vertex o2) {
 			Integer a1 = Integer.valueOf(o1.label);
 			Integer a2 = Integer.valueOf(o2.label);
-			return a1.compareTo(a2);		
+			return a1.compareTo(a2);
 		}
 
 	}
@@ -86,6 +84,7 @@ public class Router {
 	/**
 	 * construct graph to for Dijkstra algorithm
 	 */
+	@SuppressWarnings("unchecked")
 	public void constructGraph() {
 		theGraph = new Graph(routerList.size());
 		for (Router router : routerList) {
@@ -142,25 +141,6 @@ public class Router {
 			}
 			routingTable.put(Integer.valueOf(theGraph.vertexList[i].label), Integer.valueOf(theGraph.vertexList[preVex].label));
 		}
-
-		// ArrayList<String> list = new ArrayList<String>();
-		// for(int i = 1; i<theGraph.adjMatrix.length;i++) {
-		// int vex = theGraph.sPath[i].parentVertex;
-		// while( theGraph.vertexList[vex] != theGraph.vertexList[0]){
-		// list.add(theGraph.vertexList[vex].label);
-		// vex = theGraph.sPath[vex].parentVertex;
-		// }
-		// Collections.reverse(list);
-		// if(list.size()==0) {
-		// routingTable.put(Integer.valueOf(theGraph.vertexList[i].label),
-		// Integer.valueOf(theGraph.vertexList[i].label));
-		// }else {
-		// routingTable.put(Integer.valueOf(theGraph.vertexList[i].label),
-		// Integer.valueOf(list.get(0)));
-		// }
-		//
-		// }
-
 	}
 
 	public void printRouteTable() {
@@ -201,6 +181,7 @@ public class Router {
 	public boolean isRouterExist(Router router) {
 		return routerList.contains(router);
 	}
+
 
 	public ArrayList<Double> getLsp() {
 		return lsp;
