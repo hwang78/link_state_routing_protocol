@@ -32,7 +32,7 @@ class Graph {
 
 	@SuppressWarnings("unused")
 	private final int MAX_VERTEX;
-	private final int INFINITY = 999999;
+	private final int INFINITY = 99999999;
 	private int nVerts;
 	private int nTree;
 	private int currentVertex;
