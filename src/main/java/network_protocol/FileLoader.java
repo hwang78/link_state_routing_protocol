@@ -1,6 +1,7 @@
 package network_protocol;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,8 +16,10 @@ public class FileLoader {
 	 * Read in original routing table
 	 * @param filePath
 	 * @return
+	 * @throws IOException 
+	 * @throws NumberFormatException 
 	 */
-	public ArrayList<ArrayList<Double>> readFile(String filePath) {
+	public ArrayList<ArrayList<Double>> readFile(String filePath) throws NumberFormatException, IOException {
 		if (filePath == null) {
 			LOGGER.info("Invalid file path.");
 			return null;
@@ -36,8 +39,6 @@ public class FileLoader {
 				}
 				result.add(distances);				
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
 		}finally {
 			try {
 				if (br != null)

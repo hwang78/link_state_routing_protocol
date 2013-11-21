@@ -76,7 +76,9 @@ public class Router {
 	class VertexComparator implements Comparator<Vertex> {
 
 		public int compare(Vertex o1, Vertex o2) {
-			return o1.label.compareTo(o2.label);
+			Integer a1 = Integer.valueOf(o1.label);
+			Integer a2 = Integer.valueOf(o2.label);
+			return a1.compareTo(a2);		
 		}
 
 	}

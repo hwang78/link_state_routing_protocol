@@ -1,8 +1,8 @@
 package network_protocol;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 import org.apache.log4j.Logger;
@@ -43,17 +43,35 @@ public class RoutingMenu {
 				case 1 :
 					System.out.println("Please load original routing table data file:");
 					String filePath = input.next();
-					readsInputRoutingTable(filePath);
-					initRouters();
-					floodNetwork();
-					generateRoutingTableForAllLink();
+					if(!readsInputRoutingTable(filePath))
+						break;
+					if(!initRouters())
+						break;
+					if(!floodNetwork())
+						break;
+					if(!generateRoutingTableForAllLink())
+						break;
+					SystemContext.isSetup = true;
 					break;		
 				case 2 :
+					if(SystemContext.isSetup == false) {
+						System.err.println("[ERROR] please load network graph in first setp. then try again.");
+						break;
+					}
 					System.out.println("Please select a router:");
-					int routerNum = input.nextInt();
-					getRouterRoutingTable(routerNum);
+					try {
+						int routerNum = input.nextInt();
+						getRouterRoutingTable(routerNum);
+					} catch (Exception e) {
+						System.err.println("[ERROR] invalid input. please try again.");
+						break;
+					}
 					break;			
 				case 3 :
+					if(SystemContext.isSetup == false) {
+						System.err.println("[ERROR] please load network graph in first setp. then try again.");
+						break;
+					}
 					System.out.println("Please input the source and destination router number:");
 					int start = input.nextInt();
 					int end = input.nextInt();
@@ -75,8 +93,16 @@ public class RoutingMenu {
 	 * Load original routing table
 	 * @param filePath
 	 */
-	public void readsInputRoutingTable(String filePath) {
-		orgRoutingTable = fr.readFile(filePath);
+	public boolean readsInputRoutingTable(String filePath) {
+		try {
+			orgRoutingTable = fr.readFile(filePath);
+		} catch (FileNotFoundException e) {
+			System.err.println("[ERROR] file read error, please make sure the input is correct.");
+			return false;
+		} catch (IOException e) {
+			System.err.println("[ERROR] system I/O error.");
+			return false;
+		}
 		if(orgRoutingTable == null) {
 			LOGGER.info("Routing tables read in failed.");
 		}
@@ -92,12 +118,13 @@ public class RoutingMenu {
 		}
 		
 		LOGGER.info("Routing table reads in finished");
+		return true;
 	}
 	
 	/**
 	 * initialize routers
 	 */
-	public void initRouters() {
+	public boolean initRouters() {
 		int i = 1;
 		for(ArrayList<Double> lsp : orgRoutingTable) {
 			Router router = new Router();
@@ -107,22 +134,25 @@ public class RoutingMenu {
 			SystemContext.ROUTERS.put(i, router);
 			i++;
 		}
+		return true;
 	}
 	
 	/**
 	 * flood the network
 	 */
-	public void floodNetwork() {
+	public boolean floodNetwork() {
 		for(Router router: SystemContext.ROUTERS.values()) {
 			router.floodLSP(router);
 		}
+		return true;
 	}
 	
-	public void generateRoutingTableForAllLink() {
+	public boolean generateRoutingTableForAllLink() {
 		for(Router router: SystemContext.ROUTERS.values()) {
 			router.constructGraph();
 			router.calculateRouteTable();
 		}
+		return true;
 	}
 	
 	/**
